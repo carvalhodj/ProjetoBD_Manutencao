@@ -54,6 +54,36 @@ class Banco:
         resultado = self.cursor.fetchall()
         print(resultado)
 
+    # Consultar peça pelo código
+    def consultaPecaCod(self, codPeca):
+        self.cursor.execute("SELECT * FROM Peca WHERE codPeca = '%s'" % str(codPeca))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
+    # Consultar todas as peças
+    def consultaPecas(self):
+        self.cursor.execute("SELECT * FROM Peca")
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
+    # Consultar peças que estão sendo utilizadas em algum serviço pelo número de série do computador
+    def consultaServicoPecaNumSerie(self, numSerie):
+        self.cursor.execute("SELECT * FROM Peca_Upgrade_Revisao WHERE numSerieMaquina = '%s'" % str(numSerie))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
+    # Consultar peças que estão sendo utilizadas em algum serviço pelo código da pela
+    def consultaServicoPecaCod(self, codPeca):
+        self.cursor.execute("SELECT * FROM Peca_Upgrade_Revisao WHERE codPecaServico = '%s'" % str(codPeca))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
+    # Consultar peças que estão sendo utilizadas em algum serviço pela data programada
+    def consultaServicoPecaData(self, dataProgramada):
+        self.cursor.execute("SELECT * FROM Peca_Upgrade_Revisao WHERE dataProgramadaServico = '%s'" % str(dataProgramada))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
 
 """
 
@@ -67,3 +97,5 @@ bd.consultaClienteCPF(12345678998)
 bd.consultaClientes()
 bd.consultaComputadorCliente(12345678998)
 bd.consultaComputadores()
+bd.consultaPecaCod('1A234567')
+bd.consultaPecas()
