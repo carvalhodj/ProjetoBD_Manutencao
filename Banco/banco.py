@@ -83,8 +83,40 @@ class Banco:
         self.cursor.execute("SELECT * FROM Peca_Upgrade_Revisao WHERE dataProgramadaServico = '%s'" % str(dataProgramada))
         resultado = self.cursor.fetchall()
         print(resultado)
+    """
+
+    Metodos de inserção nas tabelas
+
+    """
+    # Cadastrar Cliente
+    def CadastrarCliente(cpf,nomeCli):
+        c.execute("INSERT INTO `manutencao`.`cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
+        con.commit()
 
 
+    # Cadastrar Computador
+    def CadastrarComputador(numSerie,modelo,cpfCli):
+        c.execute("INSERT INTO `manutencao`.`computador` (`numSerie`, `modelo`, `cpfCli`) VALUES ('"+str(numSerie)+"', '"+str(modelo)+"', '"+str(cpfCli)+"');")
+        con.commit()
+    
+    # Cadastrar Peca
+    def CadastrarAluguelRelacionamento(codPeca,descricao):
+        c.execute("INSERT INTO `manutencao`.`peca` (`codPeca`, `descricao`) VALUES ('"+str(codPeca)+"','"+str(descricao)+"');")
+        con.commit()
+    
+    # Cadastrar relação Peca com Upgrade Revisao
+    def CadastrarPecaUpgradeRevisao(numSerieMaquina,dataProgramadaServico,codPecaServico,quantidade):
+        c.execute("INSERT INTO `manutencao`.`upgrade_revisao` (`numSerieMaquina`,`dataProgramadaServico`,`codPecaServico`,`quantidade`) VALUES ('"+str(numSerieMaquina)+"', '"+str(dataProgramadaServico)+"', '"+str(codPecaServico)+"', '"+str(quantidade)+"');")
+        con.commit()
+    #Cadastrar Upgrade Revisao
+    def CadastrarUpgradeRevisao(numSerieComputador,dataProgramada,dataUltimoUpgrade,dataExecutada):
+        c.execute("INSERT INTO `manutencao`.`upgrade_revisao` (`numSerieComputador`,`dataProgramada`,`dataUltimoUpgrade`,`dataExecutada`) VALUES ('"+str(numSerieComputador)+"', '"+str(dataProgramada)+"', '"+str(dataUltimoUpgrade)+"', '"+str(dataExecutada)+"');")
+        con.commit()
+
+        
+        
+        
+        
 """
 
 Código para testar os métodos - Apagar para versão final
