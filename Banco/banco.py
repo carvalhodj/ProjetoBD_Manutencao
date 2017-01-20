@@ -100,8 +100,13 @@ class Banco:
 
     # Cadastrar Cliente
     def CadastrarCliente(self, cpf, nomeCli):
-        self.cursor.execute("INSERT INTO `manutencao`.`Cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
-        self.con.commit()
+        try:
+            self.cursor.execute("INSERT INTO `manutencao`.`Cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
 
     # Cadastrar Computador
     def CadastrarComputador(self, numSerie, modelo, cpfCli):
@@ -115,18 +120,33 @@ class Banco:
     
     # Cadastrar Peca
     def CadastrarAluguelRelacionamento(self, codPeca,descricao):
-        self.cursor.execute("INSERT INTO `manutencao`.`Peca` (`codPeca`, `descricao`) VALUES ('"+str(codPeca)+"','"+str(descricao)+"');")
-        self.con.commit()
+        try:
+            self.cursor.execute("INSERT INTO `manutencao`.`Peca` (`codPeca`, `descricao`) VALUES ('"+str(codPeca)+"','"+str(descricao)+"');")
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
     
     # Cadastrar relação Peca com Upgrade Revisao
     def CadastrarPecaUpgradeRevisao(self, numSerieMaquina,dataProgramadaServico,codPecaServico,quantidade):
-        self.cursor.execute("INSERT INTO `manutencao`.`Peca_Upgrade_Revisao` (`numSerieMaquina`,`dataProgramadaServico`,`codPecaServico`,`quantidade`) VALUES ('"+str(numSerieMaquina)+"', '"+str(dataProgramadaServico)+"', '"+str(codPecaServico)+"', '"+str(quantidade)+"');")
-        self.con.commit()
+        try:
+            self.cursor.execute("INSERT INTO `manutencao`.`Peca_Upgrade_Revisao` (`numSerieMaquina`,`dataProgramadaServico`,`codPecaServico`,`quantidade`) VALUES ('"+str(numSerieMaquina)+"', '"+str(dataProgramadaServico)+"', '"+str(codPecaServico)+"', '"+str(quantidade)+"');")
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
 
     #Cadastrar Upgrade Revisao
     def CadastrarUpgradeRevisao(self, numSerieComputador,dataProgramada,dataUltimoUpgrade,dataExecutada):
-        self.cursor.execute("INSERT INTO `manutencao`.`Upgrade_Revisao` (`numSerieComputador`,`dataProgramada`,`dataUltimoUpgrade`,`dataExecutada`) VALUES ('"+str(numSerieComputador)+"', '"+str(dataProgramada)+"', '"+str(dataUltimoUpgrade)+"', '"+str(dataExecutada)+"');")
-        self.con.commit()
+        try:
+            self.cursor.execute("INSERT INTO `manutencao`.`Upgrade_Revisao` (`numSerieComputador`,`dataProgramada`,`dataUltimoUpgrade`,`dataExecutada`) VALUES ('"+str(numSerieComputador)+"', '"+str(dataProgramada)+"', '"+str(dataUltimoUpgrade)+"', '"+str(dataExecutada)+"');")
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
 
     """
 
@@ -166,7 +186,7 @@ Código para testar os métodos - Apagar para versão final
 """
 
 bd = Banco('localhost', 'root', 'root', 'manutencao')
-#bd.CadastrarCliente(123, "Daniel")
+bd.CadastrarCliente(123, "Daniel")
 bd.consultaClienteCPF(123)
 bd.CadastrarComputador("123ABC", "MAX123", 123)
 #bd.CadastrarComputador("ABC123", "MAX123", 123)
@@ -174,5 +194,6 @@ bd.consultaComputadorCliente(123)
 #bd.removerComputadorCliente(123, "123ABC")
 #bd.consultaComputadorCliente(123)
 #bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
+bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, "")
 bd.consultaServicoNumSerie("ABC123")
 
