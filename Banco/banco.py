@@ -50,6 +50,12 @@ class Banco:
         resultado = self.cursor.fetchall()
         print(resultado)
 
+    # Consultar computador pelo cpf do cliente e número de série do computador
+    def consultaComputadorClienteCpfNumSerie(self, cpfCli, numSerie):
+        self.cursor.execute("SELECT * FROM Computador WHERE cpfCli = '%s' AND numSerie = '$s'" % (str(cpfCli), str(numSerie)))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
     # Consultar todos os computadores cadastrados
     def consultaComputadores(self):
         self.cursor.execute("SELECT * FROM Computador")
@@ -156,29 +162,49 @@ class Banco:
 
     # Remover Cliente utilizando o CPF
     def removerCliente(self, cpfCli):
-        self.cursor.execute("DELETE FROM `manutencao`.`Cliente` WHERE cpf = '%s';" % str(cpfCli))
-        self.con.commit()
-
+        try:
+            self.cursor.execute("DELETE FROM `manutencao`.`Cliente` WHERE cpf = '%s';" % str(cpfCli))
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
     # Remover Computador utilizando o CPF do cliente e o Número de série do Computador
     def removerComputadorCliente(self, cpfCli, numSerie):
-        self.cursor.execute("DELETE FROM `manutencao`.`Computador` WHERE cpfCli = '%s' AND numSerie = '%s';" % (str(cpfCli), str(numSerie)))
-        self.con.commit()
-
+        try:
+            self.cursor.execute("DELETE FROM `manutencao`.`Computador` WHERE cpfCli = '%s' AND numSerie = '%s';" % (str(cpfCli), str(numSerie)))
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
     # Remover Peça utilizando o Código da peça
     def removerPeca(self, codPeca):
-        self.cursor.execute("DELETE FROM `manutencao`.`Peca` WHERE codPeca = '%s';" % str(codPeca))
-        self.con.commit()
-
+        try:
+            self.cursor.execute("DELETE FROM `manutencao`.`Peca` WHERE codPeca = '%s';" % str(codPeca))
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
     # Remover serviço de upgrade de peça utilizando o Número de série do Computador e o Código da peça
     def removerPecaUpgrade(self, numSerie, codPeca):
-        self.cursor.execute("DELETE FROM `manutencao`.`Peca_Upgrade_Revisao` WHERE numSerieMaquina = '%s' AND codPecaServico = '%s';" % (str(numSerie), str(codPeca)))
-        self.con.commit()
-
+        try:
+            self.cursor.execute("DELETE FROM `manutencao`.`Peca_Upgrade_Revisao` WHERE numSerieMaquina = '%s' AND codPecaServico = '%s';" % (str(numSerie), str(codPeca)))
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
     # Remover serviço de upgrade utilizando o Número de série do computador
     def removerUpgrade(self, numSerie):
-        self.cursor.execute("DELETE FROM `manutencao`.`Upgrade_Revisao` WHERE numSerieComputador = '%s';" % str(numSerie))
-        self.con.commit()
-
+        try:
+            self.cursor.execute("DELETE FROM `manutencao`.`Upgrade_Revisao` WHERE numSerieComputador = '%s';" % str(numSerie))
+            self.con.commit()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+        except:
+            print("Erro inesperado:", sys.exc_info())
 """
 
 Código para testar os métodos - Apagar para versão final
@@ -196,4 +222,5 @@ bd.consultaComputadorCliente(123)
 #bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
 bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, "")
 bd.consultaServicoNumSerie("ABC123")
-
+bd.removerComputadorCliente(123, "ABC123")
+bd.removerCliente(123)
