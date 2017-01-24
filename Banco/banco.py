@@ -1,17 +1,15 @@
 import MySQLdb
 import sys
 
-
 class Banco:
-
     def __init__(self, host, user, passwd, db):
         self.con = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db)
         self.cursor = self.con.cursor()
 
     """
-
+    
     Consultas às tabelas
-
+    
     """
 
     # Consultar clientes pelo nome
@@ -88,7 +86,14 @@ class Banco:
 
     # Consultar peças que estão sendo utilizadas em algum serviço pela data programada
     def consultaServicoPecaData(self, dataProgramada):
-        self.cursor.execute("SELECT * FROM Peca_Upgrade_Revisao WHERE dataProgramadaServico = '%s'" % str(dataProgramada))
+        self.cursor.execute(
+            "SELECT * FROM Peca_Upgrade_Revisao WHERE dataProgramadaServico = '%s'" % str(dataProgramada))
+        resultado = self.cursor.fetchall()
+        print(resultado)
+
+    # Consultar serviço de upgrade pelo número de série do computador
+    def consultaServicoNumSerie(self, numSerie):
+        self.cursor.execute("SELECT * FROM manutencao.Upgrade_Revisao WHERE numSerieComputador = '%s';" % str(numSerie))
         resultado = self.cursor.fetchall()
         print(resultado)
 
@@ -169,6 +174,7 @@ class Banco:
             print("Erro de integridade:", sys.exc_info()[1])
         except:
             print("Erro inesperado:", sys.exc_info())
+
     # Remover Computador utilizando o CPF do cliente e o Número de série do Computador
     def removerComputadorCliente(self, cpfCli, numSerie):
         try:
@@ -205,6 +211,47 @@ class Banco:
             print("Erro de integridade:", sys.exc_info()[1])
         except:
             print("Erro inesperado:", sys.exc_info())
+
+            
+    """
+    
+    Métodos de Edição
+    
+    """
+
+    # Editar nome dos clientes pelo cpf
+    def editarClienteNome(self, cpfCliente,novoNome):
+        self.cursor.execute("UPDATE `manutencao`.`cliente` SET `nomeCli`="+str(novoNome)+" WHERE `cpf`="+str(123456)+";")
+        self.con.commit()
+
+    # Editar descricao da peca pelo codigo
+    def editarPecaDescricao(self, codPeca, novaDescricao):
+        self.cursor.execute("UPDATE `manutencao`.`peca` SET `descricao`="+str(codPeca)+" WHERE `codPeca`="+str(codPeca)+";")
+        self.con.commit()
+
+    # Editar data executada
+    def editarUpgrade_RevisaoDataProgramada(self,numSerieComputador,dataExecutada):
+        self.cursor.execute("UPDATE `manutencao`.`upgrade_revisao` SET `dataExecutada`="+str(dataExecutada)+" WHERE `numSerieComputador`="+str(numSerieComputador)+";")
+        self.con.commit()
+    #Editar data programada
+    def editarUpgrade_RevisaoDataProgramada(self, numSerieComputador, dataProgramada):
+        self.cursor.execute("UPDATE `manutencao`.`upgrade_revisao` SET `dataProgramada`=" + str(dataProgramada) + " WHERE `numSerieComputador`=" + str(numSerieComputador) + ";")
+        self.con.commit()
+    #Editar modelo do  computador
+    def editarComputadorModelo(self, numSerie,novoModelo):
+        self.cursor.execute("UPDATE `manutencao`.`computador` SET `modelo`="+str(novoModelo)+" WHERE `numSerie`="+str(numSerie)+";")
+        self.con.commit()
+    #Editar dono do  computador
+    def editarComputadorDono(self, numSerie,cpfCli):
+        self.cursor.execute("UPDATE `manutencao`.`computador` SET `cpfCli`="+str(cpfCli)+" WHERE `numSerie`="+str(numSerie)+";")
+        self.con.commit()
+    #Editar quantidade na relacao peca e upgrade
+    def editarComputadorModelo(self, numSerieMaquina,dataProgramadaServico,codPecaServico, novaQuantidade):
+        self.cursor.execute("UPDATE `manutencao`.`peca_upgrade_revisao` SET `quantidade`="+str(novaQuantidade)+" WHERE `numSerieMaquina`="+str(numSerieMaquina)+" and`dataProgramadaServico`="+str(dataProgramadaServico)+" and`codPecaServico`="+str(codPecaServico)+";")
+        self.con.commit()
+
+
+
 """
 
 Código para testar os métodos - Apagar para versão final
@@ -215,11 +262,19 @@ bd = Banco('localhost', 'root', 'root', 'manutencao')
 bd.CadastrarCliente(123, "Daniel")
 bd.consultaClienteCPF(123)
 bd.CadastrarComputador("123ABC", "MAX123", 123)
+
+# bd.CadastrarComputador("ABC123", "MAX123", 123)
+bd.consultaComputadorCliente(123)
+# bd.removerComputadorCliente(123, "123ABC")
+# bd.consultaComputadorCliente(123)
+# bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
+
 #bd.CadastrarComputador("ABC123", "MAX123", 123)
 bd.consultaComputadorCliente(123)
 #bd.removerComputadorCliente(123, "123ABC")
 #bd.consultaComputadorCliente(123)
 #bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
+
 bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, "")
 bd.consultaServicoNumSerie("ABC123")
 bd.removerComputadorCliente(123, "ABC123")
