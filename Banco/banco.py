@@ -114,46 +114,25 @@ class Banco:
         self.cursor.execute("INSERT INTO `manutencao`.`Cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
         self.con.commit()
 
-
     # Cadastrar Computador
     def CadastrarComputador(self, numSerie, modelo, cpfCli):
-        try:
-            self.cursor.execute("INSERT INTO `manutencao`.`Computador` (`numSerie`, `modelo`, `cpfCli`) VALUES ('"+str(numSerie)+"', '"+str(modelo)+"', '"+str(cpfCli)+"');")
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("INSERT INTO `manutencao`.`Computador` (`numSerie`, `modelo`, `cpfCli`) VALUES ('"+str(numSerie)+"', '"+str(modelo)+"', '"+str(cpfCli)+"');")
+        self.con.commit()
     
     # Cadastrar Peca
-    def CadastrarAluguelRelacionamento(self, codPeca,descricao):
-        try:
-            self.cursor.execute("INSERT INTO `manutencao`.`Peca` (`codPeca`, `descricao`) VALUES ('"+str(codPeca)+"','"+str(descricao)+"');")
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+    def CadastrarPeca(self, codPeca,descricao):
+        self.cursor.execute("INSERT INTO `manutencao`.`Peca` (`codPeca`, `descricao`) VALUES ('"+str(codPeca)+"','"+str(descricao)+"');")
+        self.con.commit()
     
     # Cadastrar relação Peca com Upgrade Revisao
     def CadastrarPecaUpgradeRevisao(self, numSerieMaquina,dataProgramadaServico,codPecaServico,quantidade):
-        try:
-            self.cursor.execute("INSERT INTO `manutencao`.`Peca_Upgrade_Revisao` (`numSerieMaquina`,`dataProgramadaServico`,`codPecaServico`,`quantidade`) VALUES ('"+str(numSerieMaquina)+"', '"+str(dataProgramadaServico)+"', '"+str(codPecaServico)+"', '"+str(quantidade)+"');")
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("INSERT INTO `manutencao`.`Peca_Upgrade_Revisao` (`numSerieMaquina`,`dataProgramadaServico`,`codPecaServico`,`quantidade`) VALUES ('"+str(numSerieMaquina)+"', '"+str(dataProgramadaServico)+"', '"+str(codPecaServico)+"', '"+str(quantidade)+"');")
+        self.con.commit()
 
     #Cadastrar Upgrade Revisao
-    def CadastrarUpgradeRevisao(self, numSerieComputador,dataProgramada,dataUltimoUpgrade,dataExecutada):
-        try:
-            self.cursor.execute("INSERT INTO `manutencao`.`Upgrade_Revisao` (`numSerieComputador`,`dataProgramada`,`dataUltimoUpgrade`,`dataExecutada`) VALUES ('"+str(numSerieComputador)+"', '"+str(dataProgramada)+"', '"+str(dataUltimoUpgrade)+"', '"+str(dataExecutada)+"');")
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+    def CadastrarUpgradeRevisao(self, numSerieComputador,dataProgramada):
+        self.cursor.execute("INSERT INTO `manutencao`.`Upgrade_Revisao` (`numSerieComputador`,`dataUltimoUpgrade`) VALUES ('"+str(numSerieComputador)+"', '"+str(dataProgramada)+"');")
+        self.con.commit()
 
     """
 

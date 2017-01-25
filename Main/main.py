@@ -1,5 +1,4 @@
 import MySQLdb
-
 from Banco.banco import Banco
 import sys, os
 
@@ -43,6 +42,7 @@ def cadastro():
     print("2. Cadastrar máquina")
     print("3. Cadastrar peça")
     print("4. Cadastrar serviço")
+    print("5. Cadastrar peça em serviço")
     print("9. Voltar")
     print("0. Sair")
 
@@ -50,7 +50,7 @@ def cadastro():
 
     if(escolha == '1'):
         cpf = input("Informe o CPF do cliente: ")
-        nome = input("Informa o Nome do cliente: ")
+        nome = input("Informe o Nome do cliente: ")
         try:
             bd.CadastrarCliente(cpf, nome)
             print("Cliente cadastrado com sucesso!")
@@ -61,8 +61,69 @@ def cadastro():
         except:
             print("Erro inesperado:", sys.exc_info())
             menu_actions['main_menu']()
+
+    elif(escolha == '2'):
+        numSerie = input("Informe o Número de série da máquina: ")
+        modelo = input("Informe o Modelo da máquina: ")
+        cpfCli = input("Informe o CPF do cliente: ")
+        try:
+            bd.CadastrarComputador(numSerie, modelo, cpfCli)
+            print("Máquina cadastrada com sucesso!")
+            menu_actions['1']()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+            menu_actions['1']()
+        except:
+            print("Erro inesperado:", sys.exc_info())
+            menu_actions['main_menu']()
+
+    elif(escolha == '3'):
+        codPeca = input("Informe o Código da peça: ")
+        descricao = input("Informe uma descrição da peça: ")
+        try:
+            bd.CadastrarPeca(codPeca, descricao)
+            print("Peça cadastrada com sucesso!")
+            menu_actions['1']()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+            menu_actions['1']()
+        except:
+            print("Erro inesperado:", sys.exc_info())
+            menu_actions['main_menu']()
+
+    elif(escolha == '4'):
+        numSerieComputador = input("Informe o Número de série da máquina: ")
+        dataProgramada = input("Informe a Data programada: ")
+        try:
+            bd.CadastrarUpgradeRevisao(numSerieComputador, dataProgramada)
+            print("Serviço cadastrado com sucesso!")
+            menu_actions['1']()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+            menu_actions['1']()
+        except:
+            print("Erro inesperado:", sys.exc_info())
+            menu_actions['main_menu']()
+
+    elif(escolha == '5'):
+        numSerieMaquina = input("Informe o Número de série da máquina: ")
+        dataProgramadaServico = input("Informe a data programada do serviço: ")
+        codPecaServico = input("Informe o Código da peça: ")
+        quantidade = input("Informe a Quantidade: ")
+        try:
+            bd.CadastrarPecaUpgradeRevisao(numSerieMaquina, dataProgramadaServico, codPecaServico, quantidade)
+            print("Serviço de peça cadastrado com sucesso!")
+            menu_actions['1']()
+        except MySQLdb.IntegrityError:
+            print("Erro de integridade:", sys.exc_info()[1])
+            menu_actions['1']()
+        except:
+            print("Erro inesperado:", sys.exc_info())
+            menu_actions['main_menu']()
+
     elif(escolha == '9'):
         back()
+
     elif(escolha == '0'):
         exit()
 
