@@ -249,33 +249,3 @@ class Banco:
     def editarComputadorModelo(self, numSerieMaquina,dataProgramadaServico,codPecaServico, novaQuantidade):
         self.cursor.execute("UPDATE `manutencao`.`peca_upgrade_revisao` SET `quantidade`="+str(novaQuantidade)+" WHERE `numSerieMaquina`="+str(numSerieMaquina)+" and`dataProgramadaServico`="+str(dataProgramadaServico)+" and`codPecaServico`="+str(codPecaServico)+";")
         self.con.commit()
-
-
-
-"""
-
-Código para testar os métodos - Apagar para versão final
-
-"""
-
-bd = Banco('localhost', 'root', 'root', 'manutencao')
-bd.CadastrarCliente(123, "Daniel")
-bd.consultaClienteCPF(123)
-bd.CadastrarComputador("123ABC", "MAX123", 123)
-
-# bd.CadastrarComputador("ABC123", "MAX123", 123)
-bd.consultaComputadorCliente(123)
-# bd.removerComputadorCliente(123, "123ABC")
-# bd.consultaComputadorCliente(123)
-# bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
-
-#bd.CadastrarComputador("ABC123", "MAX123", 123)
-bd.consultaComputadorCliente(123)
-#bd.removerComputadorCliente(123, "123ABC")
-#bd.consultaComputadorCliente(123)
-#bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
-
-bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, "")
-bd.consultaServicoNumSerie("ABC123")
-bd.removerComputadorCliente(123, "ABC123")
-bd.removerCliente(123)
