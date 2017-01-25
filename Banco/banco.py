@@ -111,13 +111,9 @@ class Banco:
 
     # Cadastrar Cliente
     def CadastrarCliente(self, cpf, nomeCli):
-        try:
-            self.cursor.execute("INSERT INTO `manutencao`.`Cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("INSERT INTO `manutencao`.`Cliente` (`cpf`, `nomeCli`) VALUES ('"+str(cpf)+"', '"+str(nomeCli)+"');")
+        self.con.commit()
+
 
     # Cadastrar Computador
     def CadastrarComputador(self, numSerie, modelo, cpfCli):
