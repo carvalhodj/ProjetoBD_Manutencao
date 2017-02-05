@@ -4,6 +4,12 @@ import sys, os
 
 cabecalho = "########### Manutenção de Computadores DCJV Ltda. ###########\n"
 
+"""
+
+Menus
+
+"""
+
 def mainMenu():
     os.system('clear')
 
@@ -131,10 +137,31 @@ def consultaPecaServico():
     return
 
 def remocao():
+    print(cabecalho)
+    print("########### Remoção - Peças em serviço ###########\n")
+    print("1. Remover cliente")
+    print("2. Remover computador")
+    print("3. Remover serviço")
+    print("4. Remover peça")
+    print("5. Remover peça em serviço")
+    print("9. Voltar")
+    print("0. Sair")
+
+    escolha = input(">> ")
+
+    exec_menu_remocao(escolha)
+
     return # TODO
 
 def edicao():
     return  # TODO
+
+
+"""
+
+Execução das escolhas
+
+"""
 
 def exec_menu(escolha):
     os.system('clear')
@@ -248,6 +275,26 @@ def exec_menu_consulta_peca_servico(escolha):
 
     return
 
+def exec_menu_remocao(escolha):
+    os.system('clear')
+    opcao = escolha.lower()
+    if(opcao == ''):
+        menu_actions['main_menu']()
+    else:
+        try:
+            menu_remocao[opcao]()
+        except KeyError:
+            print("Opção inválida. Tente novamente.")
+            menu_actions['main_menu']()
+
+    return
+
+"""
+
+Funções
+
+"""
+
 def cadastrarCliente():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     cpf = input("Informe o CPF do cliente: ")
@@ -255,12 +302,15 @@ def cadastrarCliente():
     try:
         bd.CadastrarCliente(cpf, nome)
         print("Cliente cadastrado com sucesso!")
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except MySQLdb.IntegrityError:
         print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except:
         print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
 def cadastrarMaquina():
@@ -271,12 +321,15 @@ def cadastrarMaquina():
     try:
         bd.CadastrarComputador(numSerie, modelo, cpfCli)
         print("Máquina cadastrada com sucesso!")
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except MySQLdb.IntegrityError:
         print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except:
         print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
 def cadastrarPeca():
@@ -286,12 +339,15 @@ def cadastrarPeca():
     try:
         bd.CadastrarPeca(codPeca, descricao)
         print("Peça cadastrada com sucesso!")
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except MySQLdb.IntegrityError:
         print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except:
         print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
 def cadastrarServico():
@@ -301,12 +357,15 @@ def cadastrarServico():
     try:
         bd.CadastrarUpgradeRevisao(numSerieComputador, dataProgramada)
         print("Serviço cadastrado com sucesso!")
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except MySQLdb.IntegrityError:
         print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except:
         print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
 def cadastrarPecaServico():
@@ -318,53 +377,65 @@ def cadastrarPecaServico():
     try:
         bd.CadastrarPecaUpgradeRevisao(numSerieMaquina, dataProgramadaServico, codPecaServico, quantidade)
         print("Serviço de peça cadastrado com sucesso!")
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except MySQLdb.IntegrityError:
         print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
         menu_actions['1']()
     except:
         print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
 def consultaClienteNome():
     nome = input("Digite o nome do cliente: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaClienteNome(nome)
-    print(resultado)
+    print("Nome: %s\nCPF: %s\n" % (resultado[0], resultado[1]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['1']()
 
 def consultaClienteCPF():
     cpf = input("Digite o CPF do cliente: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaClienteCPF(cpf)
-    print(resultado)
+    print("Nome: %s\nCPF: %s\n" % (resultado[0], resultado[1]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['1']()
 
 def consultaClientes():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaClientes()
-    print(resultado)
+    for cliente in resultado:
+        print("Nome: %s\nCPF: %s\n" % (cliente[0], cliente[1]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['1']()
 
 def consultaMaquinaModelo():
     modelo = input("Digite o modelo da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorModelo(modelo)
-    print(resultado)
+    for maquina in resultado:
+        print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (maquina[0], maquina[1], maquina[2]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
 def consultaMaquinaNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorNumSerie(numSerie)
-    print(resultado)
+    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0], resultado[1], resultado[2]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
 def consultaMaquinaCPFCliente():
     cpf = input("Digite o CPF do cliente: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorCliente(cpf)
-    print(resultado)
+    for maquina in resultado:
+        print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (maquina[0], maquina[1], maquina[2]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
 def consultaMaquinaCPFClienteNumSerie():
@@ -372,26 +443,32 @@ def consultaMaquinaCPFClienteNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorClienteCpfNumSerie(cpf, numSerie)
-    print(resultado)
+    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0], resultado[1], resultado[2]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
 def consultaComputadores():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadores()
-    print(resultado)
+    for maquina in resultado:
+        print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (maquina[0], maquina[1], maquina[2]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
 def consultaPecaCod():
     codPeca = input("Digite o código da peça: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaPecaCod(codPeca)
-    print(resultado)
+    print("Código: %s\nDescrição: %s\n" % (resultado[0], resultado[1]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['3']()
 
 def consultaPecas():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaPecas()
-    print(resultado)
+    for peca in resultado:
+        print("Código: %s\nDescrição: %s\n" % (peca[0], peca[1]))
+    input("Pressione ENTER para continuar...")
     menu_consulta['3']()
 
 def consultaServicoNumSerie():
@@ -399,6 +476,7 @@ def consultaServicoNumSerie():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoNumSerie(numSerie)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
 def consultaServicoDataProg():
@@ -406,6 +484,7 @@ def consultaServicoDataProg():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoDataProg(dataProg)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
 def consultaServicoDataExec():
@@ -413,12 +492,14 @@ def consultaServicoDataExec():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoDataExec(dataExec)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
 def consultaServicos():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultarServicos()
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
 def consultaServicoPecaNumSerie():
@@ -426,6 +507,7 @@ def consultaServicoPecaNumSerie():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoPecaNumSerie(numSerie)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['5']()
 
 def consultaServicoPecaCod():
@@ -433,6 +515,7 @@ def consultaServicoPecaCod():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoPecaCod(codPeca)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['5']()
 
 def consultaServicoPecaData():
@@ -440,13 +523,107 @@ def consultaServicoPecaData():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoPecaData(dataProg)
     print(resultado)
+    input("Pressione ENTER para continuar...")
     menu_consulta['5']()
+
+def removerCliente():
+    cpfCli = input("Digite o CPF do cliente a remover: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.removerCliente(cpfCli)
+        print("Cliente removido com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['3']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+
+def removerComputadorCliente():
+    cpfCli = input("Digite o CPF do cliente dono da máquina: ")
+    numSerie = input("Digite o número de série da máquina: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.removerComputadorCliente(cpfCli, numSerie)
+        print("Máquina removida com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['3']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+
+def removerUpgrade():
+    numSerie = input("Digite o número de série da máquina: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.removerUpgrade(numSerie)
+        print("Serviço removido com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['3']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+
+def removerPeca():
+    codPeca = input("Digite o código da peça: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.removerPeca(codPeca)
+        print("Peça removida com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['3']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+
+def removerPecaUpgrade():
+    numSerie = input("Digite o número de série da máquina: ")
+    codPeca = input("Digite o código da peça: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.removerPecaUpgrade(numSerie, codPeca)
+        print("Peça removida do serviço com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['3']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
 
 def back():
     menu_actions['main_menu']()
 
 def exit():
     sys.exit()
+
+"""
+
+Listas das funções
+
+"""
 
 menu_actions = {
     'main_menu': mainMenu,
@@ -520,27 +697,15 @@ menu_consulta_peca_servico = {
     '0': exit
 }
 
+menu_remocao = {
+    '1': removerCliente,
+    '2': removerComputadorCliente,
+    '3': removerUpgrade,
+    '4': removerPeca,
+    '5': removerPecaUpgrade,
+    '9': back,
+    '0': exit
+}
+
 if __name__ == "__main__":
     mainMenu()
-
-# bd = Banco('localhost', 'root', 'root', 'manutencao')
-# bd.CadastrarCliente(123, "Daniel")
-# bd.consultaClienteCPF(123)
-# bd.CadastrarComputador("123ABC", "MAX123", 123)
-#
-# # bd.CadastrarComputador("ABC123", "MAX123", 123)
-# bd.consultaComputadorCliente(123)
-# # bd.removerComputadorCliente(123, "123ABC")
-# # bd.consultaComputadorCliente(123)
-# # bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
-#
-# #bd.CadastrarComputador("ABC123", "MAX123", 123)
-# bd.consultaComputadorCliente(123)
-# #bd.removerComputadorCliente(123, "123ABC")
-# #bd.consultaComputadorCliente(123)
-# #bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, " ")
-#
-# bd.CadastrarUpgradeRevisao("ABC123", 20170101, 20160102, "")
-# bd.consultaServicoNumSerie("ABC123")
-# bd.removerComputadorCliente(123, "ABC123")
-# bd.removerCliente(123)

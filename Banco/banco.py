@@ -151,54 +151,28 @@ class Banco:
 
     # Remover Cliente utilizando o CPF
     def removerCliente(self, cpfCli):
-        try:
-            self.cursor.execute("DELETE FROM `manutencao`.`Cliente` WHERE cpf = '%s';" % str(cpfCli))
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("DELETE FROM `manutencao`.`Cliente` WHERE cpf = '%s';" % str(cpfCli))
+        self.con.commit()
 
     # Remover Computador utilizando o CPF do cliente e o Número de série do Computador
     def removerComputadorCliente(self, cpfCli, numSerie):
-        try:
-            self.cursor.execute("DELETE FROM `manutencao`.`Computador` WHERE cpfCli = '%s' AND numSerie = '%s';" % (str(cpfCli), str(numSerie)))
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("DELETE FROM `manutencao`.`Computador` WHERE cpfCli = '%s' AND numSerie = '%s';" % (str(cpfCli), str(numSerie)))
+        self.con.commit()
 
     # Remover Peça utilizando o Código da peça
     def removerPeca(self, codPeca):
-        try:
-            self.cursor.execute("DELETE FROM `manutencao`.`Peca` WHERE codPeca = '%s';" % str(codPeca))
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("DELETE FROM `manutencao`.`Peca` WHERE codPeca = '%s';" % str(codPeca))
+        self.con.commit()
 
     # Remover serviço de upgrade de peça utilizando o Número de série do Computador e o Código da peça
     def removerPecaUpgrade(self, numSerie, codPeca):
-        try:
-            self.cursor.execute("DELETE FROM `manutencao`.`Peca_Upgrade_Revisao` WHERE numSerieMaquina = '%s' AND codPecaServico = '%s';" % (str(numSerie), str(codPeca)))
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
+        self.cursor.execute("DELETE FROM `manutencao`.`Peca_Upgrade_Revisao` WHERE numSerieMaquina = '%s' AND codPecaServico = '%s';" % (str(numSerie), str(codPeca)))
+        self.con.commit()
 
     # Remover serviço de upgrade utilizando o Número de série do computador
     def removerUpgrade(self, numSerie):
-        try:
-            self.cursor.execute("DELETE FROM `manutencao`.`Upgrade_Revisao` WHERE numSerieComputador = '%s';" % str(numSerie))
-            self.con.commit()
-        except MySQLdb.IntegrityError:
-            print("Erro de integridade:", sys.exc_info()[1])
-        except:
-            print("Erro inesperado:", sys.exc_info())
-
+        self.cursor.execute("DELETE FROM `manutencao`.`Upgrade_Revisao` WHERE numSerieComputador = '%s';" % str(numSerie))
+        self.con.commit()
             
     """
     
