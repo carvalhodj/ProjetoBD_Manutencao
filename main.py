@@ -138,9 +138,9 @@ def consultaPecaServico():
 
 def remocao():
     print(cabecalho)
-    print("########### Remoção - Peças em serviço ###########\n")
+    print("########### Remoção ###########\n")
     print("1. Remover cliente")
-    print("2. Remover computador")
+    print("2. Remover máquina")
     print("3. Remover serviço")
     print("4. Remover peça")
     print("5. Remover peça em serviço")
@@ -151,11 +151,49 @@ def remocao():
 
     exec_menu_remocao(escolha)
 
-    return # TODO
+    return
 
 def edicao():
+    print(cabecalho)
+    print("########### Edição ###########\n")
+    print("1. Editar cliente")
+    print("2. Editar máquina")
+    print("3. Editar serviço")
+    print("4. Editar peça")
+    print("5. Editar peça em serviço")
+    print("9. Voltar")
+    print("0. Sair")
+
+    escolha = input(">> ")
+
+    exec_menu_edicao(escolha)
+
+    return
+
+def editarCliente():
+    print(cabecalho)
+    print("########### Edição - Cliente ###########\n")
+    print("1. Editar nome do cliente")
+    print("9. Voltar")
+    print("0. Sair")
+
+    escolha = input(">> ")
+
+    exec_menu_edicao_cliente(escolha)
+
+    return
+
+def editarMaquina():
     return  # TODO
 
+def editarPeca():
+    return  # TODO
+
+def editarServico():
+    return  # TODO
+
+def editarPecaServico():
+    return  # TODO
 
 """
 
@@ -289,6 +327,33 @@ def exec_menu_remocao(escolha):
 
     return
 
+def exec_menu_edicao(escolha):
+    os.system('clear')
+    opcao = escolha.lower()
+    if(opcao == ''):
+        menu_actions['main_menu']()
+    else:
+        try:
+            menu_edicao[opcao]()
+        except KeyError:
+            print("Opção inválida. Tente novamente.")
+            menu_actions['main_menu']()
+
+    return
+
+def exec_menu_edicao_cliente(escolha):
+    os.system('clear')
+    opcao = escolha.lower()
+    if(opcao == ''):
+        menu_actions['main_menu']()
+    else:
+        try:
+            menu_edicao_cliente[opcao]()
+        except KeyError:
+            print("Opção inválida. Tente novamente.")
+            menu_edicao['1']()
+
+    return
 """
 
 Funções
@@ -613,6 +678,28 @@ def removerPecaUpgrade():
         input("Pressione ENTER para continuar...")
         menu_actions['main_menu']()
 
+def editarNomeCliente():
+    cpfCliente = input("Digite o CPF do cliente a alterar o nome: ")
+    nomeCliente = input("Digite o novo nome do cliente: ")
+    bd = Banco('localhost', 'root', 'root', 'manutencao')
+    try:
+        bd.editarClienteNome(cpfCliente, nomeCliente)
+        print("Nome do cliente alterado com sucesso!")
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    except MySQLdb.IntegrityError:
+        print("Erro de integridade:", sys.exc_info()[1])
+        input("Pressione ENTER para continuar...")
+        menu_actions['4']()
+    except:
+        print("Erro inesperado:", sys.exc_info())
+        input("Pressione ENTER para continuar...")
+        menu_actions['main_menu']()
+    return
+
+
+
+
 def back():
     menu_actions['main_menu']()
 
@@ -703,6 +790,22 @@ menu_remocao = {
     '3': removerUpgrade,
     '4': removerPeca,
     '5': removerPecaUpgrade,
+    '9': back,
+    '0': exit
+}
+
+menu_edicao = {
+    '1': editarCliente,
+    '2': editarMaquina,
+    '3': editarServico,
+    '4': editarPeca,
+    '5': editarPecaServico,
+    '9': back,
+    '0': exit
+}
+
+menu_edicao_cliente = {
+    '1': editarNomeCliente,
     '9': back,
     '0': exit
 }
