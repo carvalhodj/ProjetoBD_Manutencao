@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ae08296-211b-4480-9c55-0bac84a02588" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ProjetoBD_Manutencao.iml" afterPath="$PROJECT_DIR$/.idea/ProjetoBD_Manutencao.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Banco/banco.py" afterPath="$PROJECT_DIR$/Banco/banco.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -145,6 +141,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="J.Vitor &lt;vitorpeu@hotmail.com&gt;" />
         <option value="carvalhodj &lt;danieljosecarvalho@gmail.com&gt;" />
       </list>
     </option>
@@ -595,7 +592,14 @@
       <option name="project" value="LOCAL" />
       <updated>1486325586452</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="- Pequenas correções">
+      <created>1488203012769</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1488203012769</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -668,7 +672,8 @@
     <MESSAGE value="- Menu de &quot;Cadastro&quot; com execução dos respectivos métodos;" />
     <MESSAGE value="- Menu de consulta, com submenus e linkagem com respectivos métodos;" />
     <MESSAGE value="- Menu de remoção com a linkagem dos métodos;&#10;- Formatação do output das consultas (até consulta de peças);" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Menu de remoção com a linkagem dos métodos;&#10;- Formatação do output das consultas (até consulta de peças);" />
+    <MESSAGE value="- Pequenas correções" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Pequenas correções" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
