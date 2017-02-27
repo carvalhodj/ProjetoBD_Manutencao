@@ -112,6 +112,7 @@ def consultaServico():
     print("1. Consultar serviço pelo Número de série da máquina")
     print("2. Consultar serviço pela data programada")
     print("3. Consultar serviço pela data executada")
+    print("4. Consultar todos os serviços")
     print("9. Voltar")
     print("0. Sair")
 
@@ -457,7 +458,7 @@ def consultaClienteNome():
     nome = input("Digite o nome do cliente: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaClienteNome(nome)
-    print("Nome: %s\nCPF: %s\n" % (resultado[0], resultado[1]))
+    print(("Nome: %s\nCPF: %s\n") % (resultado[0][0], resultado[0][1]))
     input("Pressione ENTER para continuar...")
     menu_consulta['1']()
 
@@ -465,7 +466,7 @@ def consultaClienteCPF():
     cpf = input("Digite o CPF do cliente: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaClienteCPF(cpf)
-    print("Nome: %s\nCPF: %s\n" % (resultado[0], resultado[1]))
+    print("Nome: %s\nCPF: %s\n" % (resultado[0][0], resultado[0][1]))
     input("Pressione ENTER para continuar...")
     menu_consulta['1']()
 
@@ -490,7 +491,7 @@ def consultaMaquinaNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorNumSerie(numSerie)
-    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0], resultado[1], resultado[2]))
+    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0][0], resultado[0][1], resultado[0][2]))
     input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
@@ -508,7 +509,7 @@ def consultaMaquinaCPFClienteNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaComputadorClienteCpfNumSerie(cpf, numSerie)
-    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0], resultado[1], resultado[2]))
+    print("Num. Série: %s\nModelo: %s\nCPF: %s\n" % (resultado[0][0], resultado[0][1],resultado[0][2]))
     input("Pressione ENTER para continuar...")
     menu_consulta['2']()
 
@@ -524,7 +525,7 @@ def consultaPecaCod():
     codPeca = input("Digite o código da peça: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaPecaCod(codPeca)
-    print("Código: %s\nDescrição: %s\n" % (resultado[0], resultado[1]))
+    print("Código: %s\nDescrição: %s\n" % (resultado[0][0], resultado[0][1]))
     input("Pressione ENTER para continuar...")
     menu_consulta['3']()
 
@@ -540,7 +541,7 @@ def consultaServicoNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoNumSerie(numSerie)
-    print(resultado)
+    print("Número de série da maquina:%s\nData programada:%s\nData do ultimo Upgrade:%s\nData Executada:%s\n" % (resultado[0][0],resultado[0][1],resultado[0][2],resultado[0][3]))
     input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
@@ -548,7 +549,7 @@ def consultaServicoDataProg():
     dataProg = input("Digite a data programada do serviço (Formato: AAAAMMDD) : ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoDataProg(dataProg)
-    print(resultado)
+    print("Número de série da maquina:%s\nData programada:%s\nData do ultimo Upgrade:%s\nData Executada:%s\n" % (resultado[0][0], resultado[0][1], resultado[0][2], resultado[0][3]))
     input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
@@ -556,14 +557,15 @@ def consultaServicoDataExec():
     dataExec = input("Digite a data executada do serviço (Formato: AAAAMMDD) : ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoDataExec(dataExec)
-    print(resultado)
+    print("Número de série da maquina:%s\nData programada:%s\nData do ultimo Upgrade:%s\nData Executada:%s\n" % (resultado[0][0],resultado[0][1], resultado[0][2], resultado[0][3]))
     input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
 def consultaServicos():
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultarServicos()
-    print(resultado)
+    for servico in resultado:
+        print("Número de série da maquina:%s\nData programada:%s\nData do ultimo Upgrade:%s\nData Executada:%s\n" % (servico[0],servico[1], servico[2], servico[3]))
     input("Pressione ENTER para continuar...")
     menu_consulta['4']()
 
@@ -571,7 +573,8 @@ def consultaServicoPecaNumSerie():
     numSerie = input("Digite o Número de série da máquina: ")
     bd = Banco('localhost', 'root', 'root', 'manutencao')
     resultado = bd.consultaServicoPecaNumSerie(numSerie)
-    print(resultado)
+    peca=bd.consultaPecaCod(resultado[0][2])
+    print("Número de série da maquina:%s\nData programada:%s\nPeca:%s\nQuantidade:%s\n" %(resultado[0][0],resultado[0][1],peca[0][1],resultado[0][3]) )
     input("Pressione ENTER para continuar...")
     menu_consulta['5']()
 

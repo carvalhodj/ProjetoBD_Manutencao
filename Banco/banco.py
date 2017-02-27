@@ -57,7 +57,7 @@ class Banco:
 
     # Consultar computador pelo cpf do cliente e número de série do computador
     def consultaComputadorClienteCpfNumSerie(self, cpfCli, numSerie):
-        self.cursor.execute("SELECT * FROM Computador WHERE cpfCli = '%s' AND numSerie = '$s'" % (str(cpfCli), str(numSerie)))
+        self.cursor.execute("SELECT * FROM Computador WHERE cpfCli = '%s' AND numSerie = '%s'" % (str(cpfCli), str(numSerie)))
         resultado = self.cursor.fetchall()
         self.cursor.close()
         return resultado
@@ -117,13 +117,13 @@ class Banco:
         return resultado
 
     def consultaServicoDataProg(self, dataProg):
-        self.cursor.execute("SELECT `dataProgramada` FROM `manutencao`.`Upgrade_Revisao` WHERE dataProgramada = '%s';" % str(dataProg))
+        self.cursor.execute("SELECT * FROM `manutencao`.`Upgrade_Revisao` WHERE dataProgramada = '%s';" % str(dataProg))
         resultado = self.cursor.fetchall()
         self.cursor.close()
         return resultado
 
     def consultaServicoDataExec(self, dataExec):
-        self.cursor.execute("SELECT `dataExecutada` FROM `manutencao`.`Upgrade_Revisao` WHERE dataExecutada = '%s';" % str(dataExec))
+        self.cursor.execute("SELECT * FROM `manutencao`.`Upgrade_Revisao` WHERE dataExecutada = '%s';" % str(dataExec))
         resultado = self.cursor.fetchall()
         self.cursor.close()
         return resultado
@@ -256,3 +256,6 @@ class Banco:
         self.cursor.execute("UPDATE `manutencao`.`Peca_Upgrade_Revisao` SET `quantidade`="+str(novaQuantidade)+" WHERE `numSerieMaquina`="+str(numSerieMaquina)+" and`dataProgramadaServico`="+str(dataProgramadaServico)+" and`codPecaServico`="+str(codPecaServico)+";")
         self.con.commit()
         self.cursor.close()
+
+banco=Banco('localhost', 'root', 'root', 'manutencao')
+print(banco.consultaComputadorClienteCpfNumSerie(123456789,"3233jjd213"))
